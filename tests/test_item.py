@@ -21,3 +21,25 @@ def test_apply_discount(product):
     src.item.Item.pay_rate = 1.2
     product.apply_discount()
     assert product.price == 18000.0
+
+
+# @property
+# def test_name(product):
+#     product.name = 'Фен'
+#     assert product.name == 'Фен'
+#
+# @name.setter
+def test_name(product):
+    product.name = 'Фен'
+    assert product.name == 'Фен'
+    product.name = 'Холодильник'
+    assert product.name == 'Холодильни'
+
+
+def test_instantiate_from_csv():
+    src.item.Item.instantiate_from_csv('tests/test_items.csv')
+    assert len(src.item.Item.all) == 2
+
+
+def test_string_to_number():
+    assert src.item.Item.string_to_number('6.6') == 6
