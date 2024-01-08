@@ -23,12 +23,6 @@ def test_apply_discount(product):
     assert product.price == 18000.0
 
 
-# @property
-# def test_name(product):
-#     product.name = 'Фен'
-#     assert product.name == 'Фен'
-#
-# @name.setter
 def test_name(product):
     product.name = 'Фен'
     assert product.name == 'Фен'
@@ -43,3 +37,11 @@ def test_instantiate_from_csv():
 
 def test_string_to_number():
     assert src.item.Item.string_to_number('6.6') == 6
+
+
+def test_repr(product):
+    assert repr(product) == "Item('Соковарка', 15000, 2)"
+
+
+def test_str(product):
+    assert str(product) == 'Соковарка'
