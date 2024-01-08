@@ -22,8 +22,6 @@ class Item:
         self.price = price
         self.quantity = quantity
 
-        # self.all.append(self)
-
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
@@ -70,3 +68,9 @@ class Item:
     def string_to_number(item_str):
         """Статический метод, возвращающий число из числа-строки"""
         return int(item_str.split(".")[0])
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        return f"{self.name}"
