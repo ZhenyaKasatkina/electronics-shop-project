@@ -1,4 +1,5 @@
 import src.item
+import src.phone
 import pytest
 
 
@@ -45,3 +46,9 @@ def test_repr(product):
 
 def test_str(product):
     assert str(product) == 'Соковарка'
+
+
+def test_add(product):
+    assert product + product == 4
+    with pytest.raises(ValueError):
+        5 + product

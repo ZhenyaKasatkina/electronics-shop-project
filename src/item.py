@@ -22,6 +22,16 @@ class Item:
         self.price = price
         self.quantity = quantity
 
+    def __add__(self, other):
+        if not isinstance(other, self.__class__):
+            raise ValueError
+        return self.quantity + other.quantity
+
+    def __radd__(self, other):
+        if not isinstance(other, self.__class__):
+            raise ValueError
+        return other.quantity + self.quantity
+
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
