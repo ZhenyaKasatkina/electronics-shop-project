@@ -21,6 +21,7 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
+        super().__init__()
 
     def __add__(self, other):
         if not isinstance(other, self.__class__):

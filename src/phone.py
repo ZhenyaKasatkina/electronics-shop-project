@@ -29,6 +29,6 @@ class Phone(Item):
         """Количество SIM-карт (number_of_sim)
         должно быть целым числом больше нуля"""
         if not isinstance(number_of_sim, int):
-            raise ValueError
+            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
         if number_of_sim < 1:
-            raise ValueError
+            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
