@@ -52,17 +52,10 @@ def test_str(product):
 
 
 def test_add(product):
+    item11 = src.item.Item("НеТелефон", 10000, 7)
+    assert item11 + product == 10
+    assert product + item11 == 10
+    assert item11 + item11 == 14
     assert product + product == 6
     with pytest.raises(ValueError):
         product + 5
-
-
-def test_radd(product):
-    item11 = src.item.Item("НеТелефон", 10000, 7)
-    assert item11 + product == 10
-    ph11 = src.phone.Phone("НеТелефон", 10000, 6, 3)
-    assert ph11 + product == 9
-    with pytest.raises(ValueError):
-        product + 5
-    with pytest.raises(ValueError):
-        5 + product

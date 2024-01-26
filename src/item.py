@@ -1,6 +1,9 @@
 import csv
 import os
 from config import ROOT_DIR
+from src.instantiatecsverror import InstantiateCSVError
+
+FILENAME = 'src/items.csv'
 
 
 class Item:
@@ -24,14 +27,9 @@ class Item:
         super().__init__()
 
     def __add__(self, other):
-        if not isinstance(other, self.__class__):
+        if not isinstance(other, Item):
             raise ValueError
         return self.quantity + other.quantity
-
-    def __radd__(self, other):
-        if not isinstance(other, self.__class__):
-            raise ValueError
-        return other.quantity + self.quantity
 
     def calculate_total_price(self) -> float:
         """
@@ -62,18 +60,30 @@ class Item:
             self.__name = "".join(list(name_item)[:10])
 
     @classmethod
-    def instantiate_from_csv(cls, file_csv):
+    def instantiate_from_csv(cls, file_csv=FILENAME):
         """Класс-метод, инициализирующий экземпляры класса `Item`
         данными из файла _src/items.csv_"""
         cls.all.clear()
-        with (open(os.path.join(ROOT_DIR, file_csv), newline='', encoding='cp1251') as csvfile):
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                name = row['name']
-                price = float(row['price'])
-                quantity = int(row['quantity'])
-                cls.all.append(cls(name, price, quantity))
-            return cls(name, price, quantity)
+        try:
+            with (open(os.path.join(ROOT_DIR, file_csv),
+                       encoding="cp1251", newline='') as csvfile):
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    # print(row)
+
+                    # обработка повреждения данных файла
+                    for key, value in row.items():
+                        if key not in ['name', 'price', 'quantity'] or not value:
+                            raise InstantiateCSVError(f"Файл item.csv поврежден")
+
+                    name = row['name']
+                    price = float(row['price'])
+                    quantity = int(row['quantity'])
+                    cls.all.append(cls(name, price, quantity))
+                return cls(name, price, quantity)
+
+        except FileNotFoundError:
+            print("Отсутствует файл item.csv")
 
     @staticmethod
     def string_to_number(item_str):
