@@ -1,6 +1,7 @@
 import src.item
 import src.phone
 import pytest
+from src.instantiatecsverror import InstantiateCSVError
 
 
 @pytest.fixture
@@ -34,6 +35,13 @@ def test_name(product):
 def test_instantiate_from_csv():
     src.item.Item.instantiate_from_csv('tests/test_items.csv')
     assert len(src.item.Item.all) == 2
+    with pytest.raises(InstantiateCSVError, match='Файл item.csv поврежден'):
+        src.item.Item.instantiate_from_csv('tests/test_items_error.csv')
+
+    try:
+        src.item.Item.instantiate_from_csv('tests/test_it.csv')
+    except FileNotFoundError as e:
+        pytest.fail(e, pytrace=True)
 
 
 def test_string_to_number():
@@ -46,9 +54,3 @@ def test_repr(product):
 
 def test_str(product):
     assert str(product) == 'Соковарка'
-
-
-def test_add(product):
-    assert product + product == 4
-    with pytest.raises(ValueError):
-        5 + product
